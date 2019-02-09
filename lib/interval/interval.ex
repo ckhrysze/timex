@@ -419,13 +419,21 @@ defmodule Timex.Interval do
 
   ## Examples
 
-      iex> #{__MODULE__}.difference(#{__MODULE__}.new(from: ~N[2018-01-01 02:00:00.000], until: ~N[2018-01-01 04:00:00.000]), #{__MODULE__}.new(from: ~N[2018-01-01 03:00:00.000], until: ~N[2018-01-01 05:00:00.000]))
-      [%#{__MODULE__}{from: ~N[2018-01-01 02:00:00.000], left_open: true, right_open: false, step: [days: 1], until: ~N[2018-01-01 03:00:00.000]}]
+      iex> #{__MODULE__}.difference(#{__MODULE__}.new(from: ~N[2018-01-01 02:00:00.000], until: ~N[2018-01-01 04:00:00.000]), #{
+    __MODULE__
+  }.new(from: ~N[2018-01-01 03:00:00.000], until: ~N[2018-01-01 05:00:00.000]))
+      [%#{__MODULE__}{from: ~N[2018-01-01 02:00:00.000], left_open: false, right_open: true, step: [days: 1], until: ~N[2018-01-01 03:00:00.000]}]
 
-      iex> #{__MODULE__}.difference(#{__MODULE__}.new(from: ~N[2018-01-01 01:00:00.000], until: ~N[2018-01-01 05:00:00.000]), #{__MODULE__}.new(from: ~N[2018-01-01 02:00:00.000], until: ~N[2018-01-01 03:00:00.000]))
-      [%#{__MODULE__}{from: ~N[2018-01-01 01:00:00.000], left_open: true, right_open: false, step: [days: 1], until: ~N[2018-01-01 02:00:00.000]}, %#{__MODULE__}{from: ~N[2018-01-01 03:00:00.000], left_open: true, right_open: false, step: [days: 1], until: ~N[2018-01-01 05:00:00.000]}]
+      iex> #{__MODULE__}.difference(#{__MODULE__}.new(from: ~N[2018-01-01 01:00:00.000], until: ~N[2018-01-01 05:00:00.000]), #{
+    __MODULE__
+  }.new(from: ~N[2018-01-01 02:00:00.000], until: ~N[2018-01-01 03:00:00.000]))
+      [%#{__MODULE__}{from: ~N[2018-01-01 01:00:00.000], left_open: false, right_open: true, step: [days: 1], until: ~N[2018-01-01 02:00:00.000]}, %#{
+    __MODULE__
+  }{from: ~N[2018-01-01 03:00:00.000], left_open: false, right_open: true, step: [days: 1], until: ~N[2018-01-01 05:00:00.000]}]
 
-      iex> #{__MODULE__}.difference(#{__MODULE__}.new(from: ~N[2018-01-01 02:00:00.000], until: ~N[2018-01-01 04:00:00.000]), #{__MODULE__}.new(from: ~N[2018-01-01 01:00:00.000], until: ~N[2018-01-01 05:00:00.000]))
+      iex> #{__MODULE__}.difference(#{__MODULE__}.new(from: ~N[2018-01-01 02:00:00.000], until: ~N[2018-01-01 04:00:00.000]), #{
+    __MODULE__
+  }.new(from: ~N[2018-01-01 01:00:00.000], until: ~N[2018-01-01 05:00:00.000]))
       []
   """
   @spec difference(__MODULE__.t(), __MODULE__.t()) :: [__MODULE__.t()]
