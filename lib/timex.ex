@@ -166,14 +166,35 @@ defmodule Timex do
 
   Converts the given Unix time to DateTime.
 
-  The integer can be given in different units according to `System.convert_time_unit/3`
-  and it will be converted to microseconds internally. Defaults to `:seconds`.
+  The integer can be given in different units(:seconds, :milliseconds, :microseconds, :nanoseconds
+  and also units described in `System.convert_time_unit/3`) and it will be converted to
+  microseconds internally. Defaults to `:second`.
 
   Unix times are always in UTC and therefore the DateTime will be returned in UTC.
   """
-  @spec from_unix(secs :: non_neg_integer, :native | System.time_unit()) ::
+  @spec from_unix(secs :: non_neg_integer, :native | Types.second_time_units()) ::
           DateTime.t() | no_return
-  def from_unix(secs, unit \\ :seconds), do: DateTime.from_unix!(secs, unit)
+  def from_unix(secs, unit \\ :second)
+
+  def from_unix(secs, :seconds) do
+    from_unix(secs, :second)
+  end
+
+  def from_unix(secs, :milliseconds) do
+    from_unix(secs, :millisecond)
+  end
+
+  def from_unix(secs, :microseconds) do
+    from_unix(secs, :microsecond)
+  end
+
+  def from_unix(secs, :nanoseconds) do
+    from_unix(secs, :nanosecond)
+  end
+
+  def from_unix(secs, unit) do
+    DateTime.from_unix!(secs, unit)
+  end
 
   @doc """
   Formats a date/time value using the given format string (and optional formatter).
@@ -965,9 +986,8 @@ defmodule Timex do
   @doc """
   See docs for `diff/3`
   """
-  @spec diff(Time, Time) :: Types.timestamp() | {:error, term}
-  @spec diff(Comparable.comparable(), Comparable.comparable()) ::
-          Types.timestamp() | {:error, term}
+  @spec diff(Time, Time) :: Duration.t() | integer | {:error, term}
+  @spec diff(Comparable.comparable(), Comparable.comparable()) :: Duration.t() | integer | {:error, term}
   def diff(%Time{} = a, %Time{} = b), do: diff(a, b, :microseconds)
   defdelegate diff(a, b), to: Timex.Comparable
 

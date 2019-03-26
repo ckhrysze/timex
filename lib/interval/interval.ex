@@ -362,7 +362,7 @@ defmodule Timex.Interval do
   end
 
   @doc """
-  Removes one interval from another, which may reduce, split, or
+  Removes one interval from another which may reduce, split, or
   eliminate the original interval. Returns a (possibly empty) list
   of intervals representing the remaining time.
 
